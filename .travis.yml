@@ -1,5 +1,6 @@
 sudo: required
 language: generic
+dist: xenial
 services:
   - docker
 env:
@@ -20,7 +21,6 @@ before_install:
   - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   - chmod +x minikube
   - mv minikube $HOME/bin/
-  - sudo systemctl start docker
   - sudo $HOME/bin/minikube start --vm-driver=none
   - $HOME/bin/minikube update-context
   - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; \

@@ -17,9 +17,9 @@ before_install:
   - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   - chmod +x minikube
   - mv minikube $HOME/bin/
-  - sudo minikube start --vm-driver=none
-  - minikube update-context
+  - sudo $HOME/bin/minikube start --vm-driver=none
+  - $HOME/bin/minikube update-context
   - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; \
-      until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+      until $HOME/bin/kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
 script:
   - find `ls charts/*/Chart.yaml | cut -d'/' -f-2` -name 'value*.yaml' -execdir helm lint -f {} \;

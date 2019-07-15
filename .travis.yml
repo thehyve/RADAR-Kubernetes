@@ -50,4 +50,5 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile sync --concurrency 1
+  - helmfile apply --concurrency 1 > /tmp/out
+  - cat /tmp/out

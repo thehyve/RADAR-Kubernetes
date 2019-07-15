@@ -51,7 +51,7 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile apply --concurrency 1 > /tmp/out
+  - helmfile sync --concurrency 1 > /tmp/out
   - helm ls
   - kubectl describe pods
   - cat /tmp/out

@@ -13,6 +13,8 @@ env:
   HELMFILE: $HOME/bin/helmfile
 
 before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y socat
   - docker --version
 
   - mkdir -p "$HOME/bin";
@@ -48,4 +50,4 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile --log-level debug apply --concurrency 1 
+  - helmfile --log-level debug apply --concurrency 1

@@ -25,6 +25,7 @@ before_install:
   - mv minikube $HOME/bin/
   - sudo $MINIKUBE start --vm-driver=none
   - $MINIKUBE update-context
+  - minikube addons disable ingress
 
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x kubectl
@@ -51,4 +52,6 @@ before_install:
 script:
   - helmfile lint
   - helmfile apply --concurrency 1 > /tmp/out
+  - helm ls
+  - kubectl describe pods
   - cat /tmp/out

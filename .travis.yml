@@ -14,26 +14,33 @@ env:
 
 before_install:
   - docker --version
+
   - mkdir -p "$HOME/bin";
   - export PATH="$HOME/bin:$PATH";
-  - curl -L https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $HOME/bin --strip-components 1
-  - chmod +x $HELM;
-  - $HELM version -c
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x kubectl
-  - mv kubectl $HOME/bin/
+
   - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   - chmod +x minikube
   - mv minikube $HOME/bin/
+  - sudo $MINIKUBE start --vm-driver=none
+  - $MINIKUBE update-context
+
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x kubectl
+  - mv kubectl $HOME/bin/
+  - $KUBECTL version
+  - $KUBECTL get nodes
+
+  - curl -L https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $HOME/bin --strip-components 1
+  - chmod +x $HELM;
+  - $HELM version -c
+  - helm plugin install https://github.com/databus23/helm-diff --version master
+  - kubectl create -f .travis/rbac-config.yaml
+  - helm init --service-account tiller
+
   - curl -Lo helmfile https://github.com/roboll/helmfile/releases/download/$HELMFILE_VERSION/helmfile_linux_amd64
   - chmod +x helmfile
   - mv helmfile $HOME/bin/
-  - sudo $MINIKUBE start --vm-driver=none
-  - $MINIKUBE update-context
-  - $KUBECTL version
-  - $KUBECTL get nodes
-  - kubectl create -f .travis/rbac-config.yaml
-  - helm init --service-account tiller
+  
   - git clone https://github.com/RADAR-base/cp-helm-charts.git
   - cp env.template .env
   - source .env
@@ -41,4 +48,4 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile apply --concurrency 1
+  - helmfile apply --concurrency 1 --log-level debug

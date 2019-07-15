@@ -73,6 +73,7 @@ releases:
   - name: nginx-ingress
     chart: stable/nginx-ingress
     version: 1.6.16
+    atomic: false
     wait: false
     installed: {{ requiredEnv "RADAR_INSTALL_BASE" }}
     values:

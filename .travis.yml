@@ -36,7 +36,7 @@ before_install:
   - kubectl create -f .travis/rbac-config.yaml
   - helm init --service-account tiller
   - helm plugin install https://github.com/databus23/helm-diff --version master
-  
+
   - curl -Lo helmfile https://github.com/roboll/helmfile/releases/download/$HELMFILE_VERSION/helmfile_linux_amd64
   - chmod +x helmfile
   - mv helmfile $HOME/bin/
@@ -48,4 +48,4 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile apply --concurrency 1 --log-level debug
+  - helmfile --log-level debug apply --concurrency 1 

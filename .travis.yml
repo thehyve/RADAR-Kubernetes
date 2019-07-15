@@ -5,8 +5,12 @@ services:
   - docker
 env:
   HELM_VERSION: v2.14.2
-  HELM: $HOME/bin/helm
+  HELMFILE_VERSION: v0.80.1
   CHANGE_MINIKUBE_NONE_USER: true
+  HELM: $HOME/bin/helm
+  MINIKUBE: $HOME/bin/minikube
+  KUBECTL: $HOME/bin/kubectl
+  HELMFILE: $HOME/bin/helmfile
 
 before_install:
   - docker --version
@@ -21,9 +25,18 @@ before_install:
   - curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
   - chmod +x minikube
   - mv minikube $HOME/bin/
-  - sudo $HOME/bin/minikube start --vm-driver=none
-  - $HOME/bin/minikube update-context
-  - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; \
-      until $HOME/bin/kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+  - curl -Lo helmfile https://github.com/roboll/helmfile/releases/download/$HELMFILE_VERSION/helmfile_linux_amd64
+  - chmod +x helmfile
+  - mv helmfile $HOME/bin/
+  - sudo $MINIKUBE start --vm-driver=none
+  - $MINIKUBE update-context
+  - $KUBECTL version
+  - $KUBECTL get nodes
+
 script:
   - find `ls charts/*/Chart.yaml | cut -d'/' -f-2` -name 'value*.yaml' -execdir helm lint -f {} \;
+  - git clone https://github.com/RADAR-base/cp-helm-charts.git
+  - cp env.template .env
+  - source .env
+  - ./bin/keystore-init
+  - helmfile sync --concurrency 1

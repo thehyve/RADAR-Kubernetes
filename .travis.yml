@@ -33,14 +33,14 @@ before_install:
   - curl -L https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $HOME/bin --strip-components 1
   - chmod +x $HELM;
   - $HELM version -c
-  - helm plugin install https://github.com/databus23/helm-diff --version master
   - kubectl create -f .travis/rbac-config.yaml
   - helm init --service-account tiller
-
+  - helm plugin install https://github.com/databus23/helm-diff --version master
+  
   - curl -Lo helmfile https://github.com/roboll/helmfile/releases/download/$HELMFILE_VERSION/helmfile_linux_amd64
   - chmod +x helmfile
   - mv helmfile $HOME/bin/
-  
+
   - git clone https://github.com/RADAR-base/cp-helm-charts.git
   - cp env.template .env
   - source .env

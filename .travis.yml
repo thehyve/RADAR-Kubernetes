@@ -40,6 +40,5 @@ before_install:
   - ./bin/keystore-init
 
 script:
-  - find `ls charts/*/Chart.yaml | cut -d'/' -f-2` -name 'value*.yaml' -execdir helm lint -f {} \;
-  - kubectl get pods -w &
-  - helmfile sync --concurrency 1
+  - helmfile lint
+  - helmfile apply --concurrency 1

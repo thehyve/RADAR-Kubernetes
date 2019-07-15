@@ -50,4 +50,4 @@ before_install:
 
 script:
   - helmfile lint
-  - helmfile --log-level debug apply --concurrency 1
+  - helmfile apply --concurrency 1 --suppress-secrets

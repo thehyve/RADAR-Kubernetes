@@ -41,4 +41,5 @@ before_install:
 
 script:
   - find `ls charts/*/Chart.yaml | cut -d'/' -f-2` -name 'value*.yaml' -execdir helm lint -f {} \;
+  - kubectl get pods -w &
   - helmfile sync --concurrency 1

@@ -1,6 +1,6 @@
 controller:
-  # hostNetwork: "true"
-  # dnsPolicy: "ClusterFirstWithHostNet"
+  hostNetwork: "true"
+  dnsPolicy: "ClusterFirstWithHostNet"
   config:
     ssl-redirect: "false"
     server-tokens: "false"

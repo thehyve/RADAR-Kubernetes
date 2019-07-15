@@ -1,6 +1,6 @@
 helmDefaults:
   atomic: true
-  timeout: 600
+  timeout: 550
 
 releases:
   - name: smtp
@@ -18,7 +18,7 @@ releases:
       - name: smarthost.password
         value: "{{ requiredEnv "SMTP_PASSWORD" }}"
       - name: persistence.size
-        value: "{{ requiredEnv "SMTP_DISK_SIZE" }}"             
+        value: "{{ requiredEnv "SMTP_DISK_SIZE" }}"
   - name: radar-backend-monitor
     chart: ../charts/radar-backend
     installed: {{ requiredEnv "RADAR_INSTALL_KAFKA_ANALYSIS" }}

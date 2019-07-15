@@ -1,6 +1,6 @@
 helmDefaults:
   atomic: true
-  timeout: 600
+  timeout: 550
 
 releases:
   - name: hdfs-namenode
@@ -52,4 +52,4 @@ releases:
       - name: sftp_user_keys
         value: "{{ requiredEnv "RADAR_OUTPUT_SFTP_PUBLIC_KEY" }}"
       - name: persistence.size
-        value: "{{ requiredEnv "RADAR_OUTPUT_DISK_SIZE" }}"    
+        value: "{{ requiredEnv "RADAR_OUTPUT_DISK_SIZE" }}"

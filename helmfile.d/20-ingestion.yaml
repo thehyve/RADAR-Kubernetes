@@ -1,6 +1,6 @@
 helmDefaults:
   atomic: true
-  timeout: 600
+  timeout: 550
 
 releases:
   - name: cp-kafka-rest

@@ -7,7 +7,7 @@ repositories:
 helmDefaults:
   atomic: true
   force: true
-  timeout: 600
+  timeout: 550
 
 releases:
   - name: cert-manager

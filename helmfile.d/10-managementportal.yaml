@@ -14,13 +14,15 @@ repositories:
 releases:
   - name: postgresql
     chart: bitnami/postgresql
-    version: 9.6.0
+    version: 9.8.9
     wait: false
     installed: {{ .Values.postgresql._install }}
     values:
       - "../etc/postgresql/values.yaml"
       - {{ .Values.postgresql | toYaml | indent 8 | trim }}
     set:
+      - name: postgresqlPostgresPassword
+        value: {{ .Values.postgres_password }}
       - name: postgresqlPassword
         value: {{ .Values.postgres_password }}
       - name: replication.password
